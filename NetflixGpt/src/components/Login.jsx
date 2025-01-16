@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import netflixLogo from '../assets/netlixx.png';
+import {validateData} from '../utils/validate'
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [ErrorMessage, setErrorMessage] = useState('');
 
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -13,6 +17,14 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const message = validateData(email, password);
+    setErrorMessage(message);
+   if(message == null){
+    setName('');
+    setEmail('');
+    setPassword('');
+   }
     // Handle form submission here
   };
 
@@ -67,6 +79,7 @@ const Login = () => {
                 className="w-full rounded bg-gray-700 p-4 text-white"
                 required
               />
+              <p className="text-red-600 font-bold py-2">{ErrorMessage}</p>
             </div>
             <button
               type="submit"
