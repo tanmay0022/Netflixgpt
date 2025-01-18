@@ -2,9 +2,16 @@ import React, { useState } from 'react';
 import netflixLogo from '../assets/netlixx.png';
 import {validateData} from '../utils/validate'
 import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../utils/firebase';
+import { useDispatch } from 'react-redux';
+import { addUser, removeUser } from '../utils/userSlice';
 
 const Login = () => {
+
+  const dispatch = useDispatch(); 
   const navigate = useNavigate();
+
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,12 +27,41 @@ const Login = () => {
 
     const message = validateData(email, password);
     setErrorMessage(message);
-   if(message == null){
-    setName('');
-    setEmail('');
-    setPassword('');
-   }
-    // Handle form submission here
+
+    if (message) return;
+
+    if(!isSignInForm) {
+      // signup logic
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          const {email,uid,displayName} = user;
+          dispatch(addUser({email:email,uid:uid,displayName:displayName}));
+          navigate('/browse');
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
+    } else {
+      // signin logic
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          const {email,uid,displayName} = user;
+          dispatch(addUser({email:email,uid:uid,displayName:displayName}));
+          navigate('/browse');
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorMessage);
+        });
+    }
+   
+   
   };
 
   return (
