@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import netflixLogo from '../assets/netlixx.png';
+
 import {validateData} from '../utils/validate'
-import { useNavigate } from 'react-router-dom';
+
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../utils/firebase';
 import { useDispatch } from 'react-redux';
 import { addUser, removeUser } from '../utils/userSlice';
+import Header from './Header';
 
 const Login = () => {
 
   const dispatch = useDispatch(); 
-  const navigate = useNavigate();
+  
 
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [email, setEmail] = useState('');
@@ -38,7 +39,7 @@ const Login = () => {
           const user = userCredential.user;
           const {email,uid,displayName} = user;
           dispatch(addUser({email:email,uid:uid,displayName:displayName}));
-          navigate('/browse');
+          
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -52,7 +53,7 @@ const Login = () => {
           const user = userCredential.user;
           const {email,uid,displayName} = user;
           dispatch(addUser({email:email,uid:uid,displayName:displayName}));
-          navigate('/browse');
+          
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -66,10 +67,8 @@ const Login = () => {
 
   return (
     <div className="relative h-screen w-screen">
-        <div>
-            <img src={netflixLogo} alt="Netflix Logo" 
-            className='absolute left-4 top-2 w-28 z-10 scale-1.5'/>
-        </div>
+        
+        <Header/>
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
