@@ -38,16 +38,17 @@ useEffect(() => {
 }, [])
 
   return (
-    <div className='absolute top-0'>
-    <div className='w-screen h-20 bg-gradient-to-b from-black'>
+    <div className='absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-50'>
+        <div className='flex justify-between'>
             <img src={netflixlogo} alt="Netflix Logo" 
-            className='absolute left-4 top-2 w-28 z-10'/>
+                className='w-28'/>
+            {location.pathname === '/browse' && (
+                <button onClick={HandleSignOut} 
+                    className='text-white py-2 px-4 bg-transparent hover:border-none underline border-none cursor-pointer'>
+                    SignOut
+                </button>
+            )}
         </div>
-         {location.pathname === '/browse' && (
-           <button onClick={HandleSignOut} className='z-10 absolute top-4 right-4 text-white bg-red-600 py-2 px-4 rounded-xl cursor-pointer'>
-             Logout
-           </button>
-         )}
     </div>
   )
 }

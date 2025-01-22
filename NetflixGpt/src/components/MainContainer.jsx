@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import MovieCard from "./MovieCard";
+import VideoCard from "./VideoCard";
 import MovieBackground from "./MovieBackground";
 
 const MainContainer = () => {
@@ -8,14 +8,14 @@ const MainContainer = () => {
 
   if (!movies) return ;
 
-  const mainMovie = movies[0];
+  const mainMovie = movies[2];
   console.log(mainMovie);
 
   const { original_title, overview,id } = mainMovie;
 
   return (
     <div>
-       <MovieCard title={original_title} overview={overview} id={id} />
+       <VideoCard title={original_title} overview={overview} id={id} />
       <MovieBackground id={id} />
      
        
