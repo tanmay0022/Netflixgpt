@@ -10,7 +10,7 @@ const dispatch = useDispatch();
 const getNowPlaying = async () => {
   console.log('Fetching now playing movies...');
   try {
-    const response = await fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options);
+    const response = await fetch('https://cors-proxy.fringe.zone/https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options);
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(`API Error: ${errorData.status_message || response.statusText}`);
