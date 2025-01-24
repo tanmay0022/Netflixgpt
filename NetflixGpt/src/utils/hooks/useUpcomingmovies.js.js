@@ -1,15 +1,17 @@
 import { useDispatch } from 'react-redux';
-import { addNowPlayingMovies } from '../movieSlice';
+import { addUpcomingMovies } from '../movieSlice';
 import { useEffect } from 'react';
-import { options } from '../../utils/constant';
+import { options } from '../constant';
 
 
-const useNowplayingMovies = () => {
+const useUpcoming = () => {
 const dispatch = useDispatch();
 
-const getNowPlaying = async () => {
+const getUpcomingMovies = async () => {
   try {
-    const response = await fetch('https://cors-proxy.fringe.zone/https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options);
+    const response = await fetch('https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1', options)
+
+
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(`API Error: ${errorData.status_message || response.statusText}`);
@@ -17,7 +19,7 @@ const getNowPlaying = async () => {
     const data = await response.json();
     console.log('API Response:', data);
     // adding movies list to store
-    dispatch(addNowPlayingMovies(data.results));
+    dispatch(addUpcomingMovies(data.results));
 
   } catch (error) {
     console.error('Error fetching movies:', error);
@@ -25,8 +27,8 @@ const getNowPlaying = async () => {
 }
 
 useEffect(() => {
-  getNowPlaying();
+  getUpcomingMovies();
 },[])
 }
 
-export default useNowplayingMovies;
+export default useUpcoming;

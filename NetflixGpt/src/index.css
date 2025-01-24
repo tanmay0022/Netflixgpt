@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 body {
   margin: 0;
   display: flex;
@@ -11,7 +9,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: black;
-  
 }
 
 /* Define the continuous scrolling animation */
@@ -20,13 +17,17 @@ body {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(calc(-50% - 1rem));
   }
 }
 
 /* Tailwind class for infinite scroll animation */
 .animate-scroll {
-  animation: scroll 100s linear infinite;
+  animation: scroll 20s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
 }
 
 /* Ensure movie cards fill the entire container */
@@ -34,4 +35,3 @@ body {
   background-size: cover; /* Ensures the images fill the card without stretching */
   background-position: center; /* Ensures the center of the image is always visible */
 }
-
